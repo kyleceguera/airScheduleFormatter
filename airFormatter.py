@@ -207,7 +207,7 @@ with col1:
 	st.write("Paste your schedule below and the software will format it for you.")
 	data = st.text_area(label='inputted schedule',label_visibility='collapsed', height=250, value=st.session_state.text)
 	st.session_state.text = data
-	subcol1, subcol2 = st.columns([0.25, 0.25])
+	subcol1, subcol2, subcol3 = st.columns([0.25, 0.25, 0.5])
 	with subcol1:
 		format = st.button("Format Flight Schedule")
 	with subcol2:
