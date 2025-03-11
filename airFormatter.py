@@ -203,16 +203,16 @@ def clear_text():
     st.session_state.text = ""
 
 with col1:
-	subcol1, subcol2 = st.columns([0.25, 0.25])
 	sked_source = st.selectbox(label='Schedule Source - Where did you get your schedule from?',options=['Tropics', 'Air Department'], placeholder='Tropics', help="Selection dictates how the schedule gets parsed")
 	st.write("Paste your schedule below and the software will format it for you.")
 	data = st.text_area(label='inputted schedule',label_visibility='collapsed', height=250, value=st.session_state.text)
 	st.session_state.text = data
-with subcol1:
-	format = st.button("Format Flight Schedule")
-with subcol2:
-	if st.button('Clear', key='clear_button', on_click= clear_text):
-		pass
+	subcol1, subcol2 = st.columns([0.25, 0.25])
+	with subcol1:
+		format = st.button("Format Flight Schedule")
+	with subcol2:
+		if st.button('Clear', key='clear_button', on_click= clear_text):
+			pass
 
 
 def format_airdept_flights(text):
