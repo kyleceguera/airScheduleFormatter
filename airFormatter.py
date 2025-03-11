@@ -201,13 +201,14 @@ st.markdown(
 
 st.markdown("""
     <style>
-        /* Target the button with the specific key 'clear_button' */
-        .stButton button[aria-label="Clear"] {
+        /* Target the button with data-testid="stBaseButton-secondary" and text "Clear" */
+        button[data-testid="stBaseButton-secondary"] {
             background-color: red;
             color: white;
             border: none;
         }
-        .stButton button[aria-label="Clear"]:hover {
+        
+        button[data-testid="stBaseButton-secondary"]:hover {
             background-color: darkred;
             color: white;
             border: 2px solid white;
@@ -215,11 +216,12 @@ st.markdown("""
             height: 3em;
             width: 12em;
         }
-        .stButton button[aria-label="Clear"]:focus {
+        
+        button[data-testid="stBaseButton-secondary"]:focus {
             outline: none;
             background-color: red;
-            border: none;
             color: white;
+            border: none;
         }
     </style>
 """, unsafe_allow_html=True)
