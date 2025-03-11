@@ -199,34 +199,6 @@ st.markdown(
     unsafe_allow_html=True
 )
 
-st.markdown("""
-    <style>
-        /* Target only the button with the text "Clear" inside */
-        button[data-testid="stBaseButton-secondary"] p {
-            color: red;  /* Text color */
-            background-color: red;
-            border: none;
-        }
-        
-        /* Hover and focus for the 'Clear' button */
-        button[data-testid="stBaseButton-secondary"]:has(p:contains("Clear")) {
-            background-color: darkred;
-            color: white;
-            border: 2px solid white;
-            border-radius: 10px;
-            height: 3em;
-            width: 12em;
-        }
-        
-        button[data-testid="stBaseButton-secondary"]:has(p:contains("Clear")):focus {
-            outline: none;
-            background-color: red;
-            color: white;
-            border: none;
-        }
-    </style>
-""", unsafe_allow_html=True)
-
 def clear_text():
     st.session_state.text = ""
 
