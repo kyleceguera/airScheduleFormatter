@@ -201,14 +201,15 @@ st.markdown(
 
 st.markdown("""
     <style>
-        /* Target the button with data-testid="stBaseButton-secondary" and text "Clear" */
-        button[data-testid="stBaseButton-secondary"] {
+        /* Target only the button with the text "Clear" inside */
+        button[data-testid="stBaseButton-secondary"] p {
+            color: red;  /* Text color */
             background-color: red;
-            color: white;
             border: none;
         }
         
-        button[data-testid="stBaseButton-secondary"]:hover {
+        /* Hover and focus for the 'Clear' button */
+        button[data-testid="stBaseButton-secondary"]:has(p:contains("Clear")) {
             background-color: darkred;
             color: white;
             border: 2px solid white;
@@ -217,7 +218,7 @@ st.markdown("""
             width: 12em;
         }
         
-        button[data-testid="stBaseButton-secondary"]:focus {
+        button[data-testid="stBaseButton-secondary"]:has(p:contains("Clear")):focus {
             outline: none;
             background-color: red;
             color: white;
