@@ -201,28 +201,31 @@ st.markdown(
 
 st.markdown("""
     <style>
-        /* Target the button with a specific key ('clear_button') */
-        .stButton[data-baseweb="button"][key="clear_button"]>button {
+        /* Target the button with the specific key 'clear_button' */
+        .stButton button[aria-label="Clear"] {
             background-color: red;
             color: white;
             border: none;
         }
-		.stButton[data-baseweb="button"][key="clear_button"]>button:hover {
-        background-color: red; 
-        color: white;
-		border: 2px solid white;
-        border-radius: 10px;
-        height: 3em;
-        width: 12em;
-		}
-		.stButton[data-baseweb="button"][key="clear_button"]>button:focus {
-        outline: none; /* Remove the outline */
-		background-color: red; 
-        border: none; /* Remove any border */
-		color: white;
-    }
+        .stButton button[aria-label="Clear"]:hover {
+            background-color: darkred;
+            color: white;
+            border: 2px solid white;
+            border-radius: 10px;
+            height: 3em;
+            width: 12em;
+        }
+        .stButton button[aria-label="Clear"]:focus {
+            outline: none;
+            background-color: red;
+            border: none;
+            color: white;
+        }
     </style>
 """, unsafe_allow_html=True)
+
+def clear_text():
+    st.session_state.text = ""
 
 with col1:
 	sked_source = st.selectbox(label='Schedule Source - Where did you get your schedule from?',options=['Tropics', 'Air Department'], placeholder='Tropics', help="Selection dictates how the schedule gets parsed")
@@ -230,9 +233,9 @@ with col1:
 	data = st.text_area(label='inputted schedule',label_visibility='collapsed', height=250, value=st.session_state.text)
 	st.session_state.text = data
 	format = st.button("Format Flight Schedule")
-	if st.button('Clear', key='clear_button'):
-		st.session_state.text = ''
-		
+	if st.button('Clear', key='clear_button', on_click= clear_text):
+		pass
+
 
 def format_airdept_flights(text):
 	air_dept_pattern = r'^\s*([A-Za-z]{2}\d{1,5})\s+([A-Za-z])\s+([A-Za-z]+)\s+([A-Za-z]{3})\s+([A-Za-z]{3})\s+([0-9]{2}[A-Za-z]{3})\s+([0-9]{4})\s+([0-9]{2}[A-Za-z]{3})\s+([0-9]{4})\s+([A-Za-z]{2})\s+0\s+([A-Za-z\s]+)\s*$'
