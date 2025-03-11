@@ -359,7 +359,6 @@ if format:
 			'Arr Date',
 			'Arr Time',
 			'Cabin Class', 
-			'Transit Stops',
 			'Layover Time',
 			'Operating Airlines']
 			
