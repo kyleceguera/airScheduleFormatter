@@ -187,8 +187,9 @@ st.markdown(
     }
 	.stButton>button:focus {
         outline: none; /* Remove the outline */
+		background-color: #4b514a; 
         border: none; /* Remove any border */
-		color: orange;
+		color: white;
     }
     </style>
     """,
