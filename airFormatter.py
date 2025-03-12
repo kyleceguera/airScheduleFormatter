@@ -314,7 +314,16 @@ def format_tropics_flights(text):
 	
 	df['Airline'] = df['Flight No'].astype(str).str[:2]
 	df['Flight Number'] = df['Flight No'].astype(str).str[2:]
-	
+	df['Dep Date'] = pd.to_datetime(df['Dep Date'])
+	df['Arr Date'] = pd.to_datetime(df['Arr Date'])	
+
+	# Iterate through rows and compare with previous row
+	for index in range(1, len(df)): 
+		# Calculate the time difference between the current row's 'Arr Date' and the previous row's 'Arr Date'
+		date_diff = (df.at[index, 'Arr Date'] - df.at[index - 1, 'Arr Date']).abs()
+		if date_diff > pd.Timedelta(days=1):
+			df.at[index, 'Layover Time'] = None  # or np.nan
+		
 	column_order = [
 		'Flight No',
 		'Airline',
