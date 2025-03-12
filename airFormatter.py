@@ -377,7 +377,7 @@ def generate_script(df):
 		
 	return script
 
-if format:
+if format and data:
 	timestamp = datetime.now()
 	st.session_state.format = True
 	if sked_source == 'Tropics':
