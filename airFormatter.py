@@ -182,7 +182,6 @@ st.markdown(
 	.stButton>button:hover {
 		background-color: #216640; 
 		color: white;
-		border: 2px solid white;
 		border-radius: 10px;
 		height: 2vh;  /* 5% of the viewport height */
 		width: 4vw;  /* 20% of the viewport width */
@@ -195,14 +194,12 @@ st.markdown(
 	}
 	.stButton>button:active {
 		background-color: #388E3C; /* Change background color when button is clicked */
-		border: 2px solid white;
 		transform: scale(0.95); /* Slightly shrink the button on click */
 		box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Add shadow when clicked */
 	}
 	.stButton>button:focus:not(:active) {
 		background-color: #808080;
 		outline: none; /* Remove the outline */
-		border: none; /* Remove any border */
 		color: white;
 		height: 2vh;  /* 5% of the viewport height */
 		width: 4vw;  /* 20% of the viewport width */
@@ -226,7 +223,7 @@ with col1:
 	st.write("Paste your schedule below and the software will format it for you.")
 	data = st.text_area(label='inputted schedule',label_visibility='collapsed', height=250, value=st.session_state.text)
 	st.session_state.text = data
-	subcol1, subcol2, subcol3 = st.columns([0.25, 0.25, 0.5])
+	subcol1, subcol2 = st.columns([0.5, 0.5])
 	with subcol1:
 		format = st.button("Format Flight Schedule")
 	with subcol2:
