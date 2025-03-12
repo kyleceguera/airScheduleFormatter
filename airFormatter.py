@@ -159,67 +159,67 @@ if 'history' not in st.session_state:
 	st.session_state.history = []
 	
 if 'text' not in st.session_state:
-    st.session_state.text = ""
+	st.session_state.text = ""
 
 col1, col2, col3 = st.columns([0.34, 0.05, 0.561])
 
 st.markdown(
-    """
-    <style>
-    .stButton>button {
-        background-color: #2E8B57; 
-        color: white;
-        border-radius: 10px;
-        height: 2vh;  /* 5% of the viewport height */
-	    width: 4vw;  /* 20% of the viewport width */
-	    min-height: 2em;  /* Ensure there's a minimum height */
-	    min-width: 10em;   /* Ensure there's a minimum width */
+	"""
+	<style>
+	.stButton>button {
+		background-color: #2E8B57; 
+		color: white;
+		border-radius: 10px;
+		height: 2vh;  /* 5% of the viewport height */
+		width: 4vw;  /* 20% of the viewport width */
+		min-height: 2em;  /* Ensure there's a minimum height */
+		min-width: 10em;   /* Ensure there's a minimum width */
 		font-size: 10px;
 		font-size: 1.4vw;
 		text-wrap: pretty;
 		line-height: 15px
-    }
+	}
 	.stButton>button:hover {
-        background-color: #216640; 
-        color: white;
+		background-color: #216640; 
+		color: white;
 		border: 2px solid white;
-        border-radius: 10px;
-        height: 2vh;  /* 5% of the viewport height */
-	    width: 4vw;  /* 20% of the viewport width */
-	    min-height: 2em;  /* Ensure there's a minimum height */
-	    min-width: 10em;   /* Ensure there's a minimum width */
+		border-radius: 10px;
+		height: 2vh;  /* 5% of the viewport height */
+		width: 4vw;  /* 20% of the viewport width */
+		min-height: 2em;  /* Ensure there's a minimum height */
+		min-width: 10em;   /* Ensure there's a minimum width */
 		font-size: 10px;
 		font-size: 1.4vw;
 		text-wrap: pretty;
 		line-height: 15px
-    }
+	}
 	.stButton>button:active {
-        background-color: #388E3C; /* Change background color when button is clicked */
+		background-color: #388E3C; /* Change background color when button is clicked */
 		border: 2px solid white;
-        transform: scale(0.95); /* Slightly shrink the button on click */
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Add shadow when clicked */
-    }
+		transform: scale(0.95); /* Slightly shrink the button on click */
+		box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Add shadow when clicked */
+	}
 	.stButton>button:focus:not(:active) {
 		background-color: #808080;
-        outline: none; /* Remove the outline */
-        border: none; /* Remove any border */
+		outline: none; /* Remove the outline */
+		border: none; /* Remove any border */
 		color: white;
-        height: 2vh;  /* 5% of the viewport height */
-	    width: 4vw;  /* 20% of the viewport width */
-	    min-height: 2em;  /* Ensure there's a minimum height */
-	    min-width: 10em;   /* Ensure there's a minimum width */
+		height: 2vh;  /* 5% of the viewport height */
+		width: 4vw;  /* 20% of the viewport width */
+		min-height: 2em;  /* Ensure there's a minimum height */
+		min-width: 10em;   /* Ensure there's a minimum width */
 		font-size: 10px;
 		font-size: 1.4vw;
 		text-wrap: pretty;
 		line-height: 15px
-    }
-    </style>
-    """,
-    unsafe_allow_html=True
+	}
+	</style>
+	""",
+	unsafe_allow_html=True
 )
 
 def clear_text():
-    st.session_state.text = ""
+	st.session_state.text = ""
 
 with col1:
 	sked_source = st.selectbox(label='Schedule Source - Where did you get your schedule from?',options=['Tropics', 'Air Department'], placeholder='Tropics', help="Selection dictates how the schedule gets parsed")
