@@ -169,18 +169,29 @@ st.markdown(
     .stButton>button {
         background-color: #2E8B57; 
         color: white;
-		border: 2px solid #000;
         border-radius: 10px;
-        height: 3em;
-        width: 12em;
+        height: 2vh;  /* 5% of the viewport height */
+	    width: 4vw;  /* 20% of the viewport width */
+	    min-height: 2em;  /* Ensure there's a minimum height */
+	    min-width: 10em;   /* Ensure there's a minimum width */
+		font-size: 10px;
+		font-size: 1.4vw;
+		text-wrap: pretty;
+		line-height: 15px
     }
 	.stButton>button:hover {
         background-color: #216640; 
         color: white;
 		border: 2px solid white;
         border-radius: 10px;
-        height: 3em;
-        width: 12em;
+        height: 2vh;  /* 5% of the viewport height */
+	    width: 4vw;  /* 20% of the viewport width */
+	    min-height: 2em;  /* Ensure there's a minimum height */
+	    min-width: 10em;   /* Ensure there's a minimum width */
+		font-size: 10px;
+		font-size: 1.4vw;
+		text-wrap: pretty;
+		line-height: 15px
     }
 	.stButton>button:active {
         background-color: #388E3C; /* Change background color when button is clicked */
@@ -188,11 +199,19 @@ st.markdown(
         transform: scale(0.95); /* Slightly shrink the button on click */
         box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Add shadow when clicked */
     }
-	.stButton>button:focus {
+	.stButton>button:focus:not(:active) {
+		background-color: #808080;
         outline: none; /* Remove the outline */
-		background-color: #4b514a; 
         border: none; /* Remove any border */
 		color: white;
+        height: 2vh;  /* 5% of the viewport height */
+	    width: 4vw;  /* 20% of the viewport width */
+	    min-height: 2em;  /* Ensure there's a minimum height */
+	    min-width: 10em;   /* Ensure there's a minimum width */
+		font-size: 10px;
+		font-size: 1.4vw;
+		text-wrap: pretty;
+		line-height: 15px
     }
     </style>
     """,
@@ -367,9 +386,9 @@ if format:
 			tropics_column_order = [
 			'Flight No',
 			'From',
+			'To',
 			'Dep Date',
 			'Dep Time',
-			'To',
 			'Arr Date',
 			'Arr Time',
 			'Cabin Class', 
@@ -379,9 +398,9 @@ if format:
 			airdept_column_order = [
 			'Flight No',
 			'From',
+			'To',
 			'Dep Date',
 			'Dep Time',
-			'To',
 			'Arr Date',
 			'Arr Time',
 			'Cabin Class', 
