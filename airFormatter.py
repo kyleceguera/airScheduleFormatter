@@ -415,8 +415,29 @@ if format and data:
 			'Operating Airlines']
 			
 			formatted_df = schedule[tropics_column_order] if sked_source == "Tropics" else schedule[airdept_column_order]
-			st.markdown("#### Formatted Air Schedule",help="To make copy and pasting easier")
-			st.markdown(formatted_df.style.hide(axis="index").to_html(), unsafe_allow_html=True)
+			
+			# Convert the DataFrame to HTML with inline CSS to force gridlines
+			html_table = formatted_df.to_html(classes='table table-bordered', index=False)
+
+			# Custom CSS for gridlines
+			css = """
+				<style>
+					.table-bordered {
+						border: 2px solid black;
+						border-collapse: collapse;
+						margin-left: auto;
+						margin-right: auto;
+					}
+					.table-bordered th, .table-bordered td {
+						border: 1px solid black;
+						padding: 8px;
+						text-align: center;  /* Center align text in both th and td */
+					}
+				</style>
+			"""
+			# Render the DataFrame with gridlines in Streamlit
+			st.markdown(css, unsafe_allow_html=True)
+			st.markdown(html_table, unsafe_allow_html=True)
 	
 		st.session_state.history.append({"timestamp": timestamp, "schedule": formatted_df, "script": script})
 		
@@ -430,7 +451,24 @@ if show_history and st.session_state.history:
 		st.markdown(f"Run Order: **{len(st.session_state.history) - idx + 1}**\n\nRuntime: **{entry['timestamp']}**")
 		st.write("Formatted Schedule:")
 		historic_df = pd.DataFrame(entry['schedule'])
-		st.markdown(historic_df.style.hide(axis="index").to_html(), unsafe_allow_html=True)
+		historic_html = historic_df.to_html(classes='table table-bordered', index=False)
+		# Custom CSS for gridlines
+		css = """
+			<style>
+				.table-bordered {
+					border: 2px solid black;
+					border-collapse: collapse;
+				}
+				.table-bordered th, .table-bordered td {
+					border: 1px solid black;
+					padding: 8px;
+					text-align: center;  /* Center align text in both th and td */
+				}
+			</style>
+		"""
+		# Render the DataFrame with gridlines in Streamlit
+		st.markdown(css, unsafe_allow_html=True)
+		st.markdown(historic_html, unsafe_allow_html=True)
 		st.markdown("#### Script:")
 		st.markdown(f"{entry['script']}")
 		st.write("-" * 50)
