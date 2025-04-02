@@ -152,6 +152,8 @@ airlines = {
 st.set_page_config(layout='wide', page_title='Air Schedule Tool', page_icon=":airplane_arriving:")
 st.title("Flight Schedule Formatting Tool")
 
+display_price = 0
+
 if 'format' not in st.session_state:
 	st.session_state.format = False
 	
@@ -160,6 +162,9 @@ if 'history' not in st.session_state:
 	
 if 'text' not in st.session_state:
 	st.session_state.text = ""
+	
+if 'price' not in st.session_state:
+	st.session_state.price = ""
 
 col1, col2, col3 = st.columns([0.34, 0.05, 0.561])
 
@@ -217,19 +222,35 @@ st.markdown(
 
 def clear_text():
 	st.session_state.text = ""
+	st.session_state.price = st.session_state.widget
+	st.session_state.widget = ""
+	
 
 with col1:
 	sked_source = st.selectbox(label='Schedule Source - Where did you get your schedule from?',options=['Tropics', 'Air Department'], placeholder='Tropics', help="Selection dictates how the schedule gets parsed")
 	st.write("Paste your schedule below and the software will format it for you.")
 	data = st.text_area(label='inputted schedule',label_visibility='collapsed', height=250, value=st.session_state.text)
 	st.session_state.text = data
+	recordPrice = st.toggle('**OPTIONAL - CAPTURE PRICE**\n\nUsed only to show price at time of formatting (when looking through previous requests)')
+	if recordPrice:
+		price_inputted = st.text_input('Schedule Price - per person',help="Price must be inputted before formatting otherwise it will not be captured", key = 'widget')
+		if price_inputted:
+			if re.search(r'[a-zA-Z]', price_inputted):  # This regex allows only numbers and periods
+				st.warning("Please enter a valid price without any letters.")
+				price=''
+			else:
+				# Optionally, you can further process the price here (like removing commas, etc.)
+				price = re.sub(r'[^0-9.]', '', price_inputted)
+	st.write('')
+	st.write('')
 	subcol1, subcol2 = st.columns([0.5, 0.5])
 	with subcol1:
-		format = st.button("Format Flight Schedule")
+		format = st.button("Format Flight Schedule"	)
 	with subcol2:
 		if st.button('Clear', key='clear_button', on_click= clear_text):
 			pass
 
+	
 
 def format_airdept_flights(text):
 	air_dept_pattern = r'^\s*([A-Za-z]{2}\d{1,5})\s+([A-Za-z])\s+([A-Za-z]+(?:\s[A-Za-z]+)*)\s+([A-Za-z]{3})\s+([A-Za-z]{3})\s+([0-9]{2}[A-Za-z]{3})\s+([0-9]{4})\s+([0-9]{2}[A-Za-z]{3})\s+([0-9]{4})\s+([A-Za-z]{2})\s+0\s+([A-Za-z\s]+)\s*$'
@@ -417,18 +438,18 @@ if format and data:
 			formatted_df = schedule[tropics_column_order] if sked_source == "Tropics" else schedule[airdept_column_order]
 			
 			# Convert the DataFrame to HTML with inline CSS to force gridlines
-			html_table = formatted_df.to_html(classes='table table-bordered', index=False)
+			html_table = formatted_df.to_html(classes='custom-table1 table-bordered', index=False)
 
 			# Custom CSS for gridlines
-			css = """
+			css1 = """
 				<style>
-					.table-bordered {
+					.custom-table1 {
 						border: 2px solid black;
 						border-collapse: collapse;
 						margin-left: auto;
 						margin-right: auto;
 					}
-					.table-bordered th, .table-bordered td {
+					.custom-table1 th, .custom-table1 td {
 						border: 1px solid black;
 						padding: 8px;
 						text-align: center;  /* Center align text in both th and td */
@@ -436,10 +457,10 @@ if format and data:
 				</style>
 			"""
 			# Render the DataFrame with gridlines in Streamlit
-			st.markdown(css, unsafe_allow_html=True)
+			st.markdown(css1, unsafe_allow_html=True)
 			st.markdown(html_table, unsafe_allow_html=True)
 	
-		st.session_state.history.append({"timestamp": timestamp, "schedule": formatted_df, "script": script})
+		st.session_state.history.append({"timestamp": timestamp, "schedule": formatted_df, "script": script, "price": float(price) if price else ''})
 		
 # Toggle to show/hide history
 st.write("-" * 50)
@@ -449,26 +470,42 @@ if show_history and st.session_state.history:
 	st.subheader("Past Schedules")
 	for idx, entry in enumerate(reversed(st.session_state.history), 1):
 		st.markdown(f"Run Order: **{len(st.session_state.history) - idx + 1}**\n\nRuntime: **{entry['timestamp']}**")
-		st.write("Formatted Schedule:")
+		if isinstance(entry['price'], float):
+			formatted_price = f"Price Inputted at Time of Formatting: **${entry['price']:,.2f}**"
+		else:
+			formatted_price = 'No price inputted at time of formatting'
+		st.markdown(formatted_price)
+		st.markdown("##### Formatted Schedule:")
 		historic_df = pd.DataFrame(entry['schedule'])
-		historic_html = historic_df.to_html(classes='table table-bordered', index=False)
+		historic_html = historic_df.to_html(classes='custom-table2 table-bordered', index=False)
 		# Custom CSS for gridlines
-		css = """
+		css2 = """
 			<style>
-				.table-bordered {
+				.custom-table2 {
 					border: 2px solid black;
 					border-collapse: collapse;
+					align: left;
 				}
-				.table-bordered th, .table-bordered td {
+				.custom-table2 th, .custom-table2 td {
 					border: 1px solid black;
 					padding: 8px;
 					text-align: center;  /* Center align text in both th and td */
 				}
+				.st-emotion-cache-1h9usn1 {
+					margin-bottom: 0px;
+					margin-top: 0px;
+					margin-left: 0px;
+					width: 70%;
+					border-style: solid;
+					border-width: 1px;
+					border-color: rgba(49, 51, 63, 0.2);
+					border-radius: 0.5rem;
+				}
 			</style>
 		"""
 		# Render the DataFrame with gridlines in Streamlit
-		st.markdown(css, unsafe_allow_html=True)
+		st.markdown(css2, unsafe_allow_html=True)
 		st.markdown(historic_html, unsafe_allow_html=True)
-		st.markdown("#### Script:")
-		st.markdown(f"{entry['script']}")
+		previous_script = st.expander('Auto-generated script')
+		previous_script.write(f"#### Script: \n\n{entry['script']}")
 		st.write("-" * 50)
