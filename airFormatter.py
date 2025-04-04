@@ -237,10 +237,11 @@ with col1:
 		if price_inputted:
 			if re.search(r'[a-zA-Z]', price_inputted):  # This regex allows only numbers and periods
 				st.warning("Please enter a valid price without any letters.")
-				price=''
 			else:
 				# Optionally, you can further process the price here (like removing commas, etc.)
 				price = re.sub(r'[^0-9.]', '', price_inputted)
+	else:
+		price = False
 	st.write('')
 	st.write('')
 	subcol1, subcol2 = st.columns([0.5, 0.5])
@@ -254,7 +255,7 @@ with col1:
 
 def format_airdept_flights(text):
 	air_dept_pattern = r'^\s*([A-Za-z]{2}\d{1,5})\s+([A-Za-z])\s+([A-Za-z]+(?:\s[A-Za-z]+)*)\s+([A-Za-z]{3})\s+([A-Za-z]{3})\s+([0-9]{2}[A-Za-z]{3})\s+([0-9]{4})\s+([0-9]{2}[A-Za-z]{3})\s+([0-9]{4})\s+([A-Za-z]{2})\s+0\s+([A-Za-z\s]+)\s*$'
-	flights = text.strip().split("\n")
+	flights = text.replace(",",'').strip().split("\n")
 	schedule = []
 
 	for index, item in enumerate(flights):
