@@ -304,7 +304,7 @@ def format_airdept_flights(text):
 	return df
 
 def format_tropics_flights(text):
-	tropics_pattern = r'^\s*([A-Za-z]{2}\d{1,5})\s+([A-Za-z])\s+([A-Za-z]{3})\s+([A-Za-z]{3})\s+(\d{2}-[A-Za-z]{3}-\d{4})\s+(\d{2}:\d{2})\s+(\d{2}-[A-Za-z]{3}-\d{4})\s+(\d{2}:\d{2})\s+([A-Za-z]+(?:\s(?!non\b)[A-Za-z]+)?)\s+((?:non\s+stop|[A-Za-z\s]+))\s+(\d{1,2}[hH]\s*\d{1,2}[mM])\s+([A-Za-z\s]+)\s*$'
+	tropics_pattern = r'^\s*([A-Za-z]{2}\d{1,5})\s+([A-Za-z])\s+([A-Za-z]{3})\s+([A-Za-z]{3})\s+(\d{2}-[A-Za-z]{3}-\d{4})\s+(\d{2}:\d{2})\s+(\d{2}-[A-Za-z]{3}-\d{4})\s+(\d{2}:\d{2})\s+([A-Za-z]+(?:\s(?!non\s)[A-Za-z]+)?)\s+((?:non\s+stop|[A-Za-z\s]+))\s+(\d{1,2}[hH]\s*\d{1,2}[mM]|\d{1,2}[mM])\s+([A-Za-z\s]+)\s*$'
 	flights = text.strip().split("\n")
 	schedule = []
 	for index, item in enumerate(flights):
