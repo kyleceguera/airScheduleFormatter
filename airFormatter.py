@@ -104,6 +104,7 @@ airlines = {
     "9W": "Jet Airways",
     "A3": "Aegean Airlines",
     "A4": "Allegiant Air",
+	"AA": "American Airlines",
     "AC": "Air Canada",
     "AF": "Air France",
     "AI": "Air India",
