@@ -99,54 +99,94 @@ airport_codes = {
 }
 
 airlines = {
-	"AA": "American Airlines",
-	"AF": "Air France",
-	"BA": "British Airways",
-	"DL": "Delta Air Lines",
-	"UA": "United Airlines",
-	"LH": "Lufthansa",
-	"QF": "Qantas Airways",
-	"EK": "Emirates",
-	"SQ": "Singapore Airlines",
-	"CX": "Cathay Pacific Airways",
-	"NH": "All Nippon Airways",
-	"AI": "Air India",
-	"KL": "KLM Royal Dutch Airlines",
-	"OS": "Austrian Airlines",
-	"JL": "Japan Airlines",
-	"AC": "Air Canada",
-	"AF": "Air France",
-	"TK": "Turkish Airlines",
-	"SA": "South African Airways",
-	"AZ": "Alitalia",
-	"MS": "EgyptAir",
-	"IB": "Iberia",
-	"HA": "Hawaiian Airlines",
-	"WY": "Oman Air",
-	"SK": "SAS Scandinavian Airlines",
-	"FI": "Icelandair",
-	"VN": "Vietnam Airlines",
-	"A3": "Aegean Airlines",
-	"FI": "Icelandair",
-	"PS": "Ukraine International Airlines",
-	"G3": "Gol Linhas Aéreas",
-	"9W": "Jet Airways",
-	"VY": "Vueling Airlines",
-	"S7": "S7 Airlines",
-	"TP": "TAP Air Portugal",
-	"LY": "El Al",
-	"GF": "Gulf Air",
-	"PK": "Pakistan International Airlines",
-	"TK": "Turkish Airlines",
-	"KU": "Kuwait Airways",
-	"EY": "Etihad Airways",
-	"QR": "Qatar Airways",
-	"AF": "Air France",
-	"SV": "Saudia",
-	"MH": "Malaysia Airlines",
-	"A4": "Allegiant Air",
-	"5J": "Cebu Pacific Air",
-	"B6": "JetBlue Airways"
+    "5J": "Cebu Pacific Air",
+    "9K": "Cape Air",
+    "9W": "Jet Airways",
+    "A3": "Aegean Airlines",
+    "A4": "Allegiant Air",
+    "AC": "Air Canada",
+    "AF": "Air France",
+    "AI": "Air India",
+    "AM": "Aeroméxico",
+    "AR": "Aerolíneas Argentinas",
+    "AS": "Alaska Airlines",
+    "AV": "Avianca",
+    "AY": "Finnair",
+    "AZ": "ITA Airways",
+    "B6": "JetBlue Airways",
+    "BA": "British Airways",
+    "BT": "airBaltic",
+    "CA": "Air China",
+    "CI": "China Airlines",
+    "CM": "Copa Airlines",
+    "CX": "Cathay Pacific Airways",
+    "CZ": "China Southern Airlines",
+    "D8": "Norwegian Air International",
+    "DL": "Delta Air Lines",
+    "DY": "Norwegian Air Shuttle",
+    "EI": "Aer Lingus",
+    "EK": "Emirates",
+    "ET": "Ethiopian Airlines",
+    "EY": "Etihad Airways",
+    "FZ": "Flydubai",
+    "FI": "Icelandair",
+    "FR": "Ryanair",
+    "G3": "Gol Linhas Aéreas",
+    "GA": "Garuda Indonesia",
+    "GF": "Gulf Air",
+    "HA": "Hawaiian Airlines",
+    "HG": "Niki",
+    "HR": "Hahn Air",
+    "IB": "Iberia",
+    "JL": "Japan Airlines",
+    "JJ": "LATAM Airlines Brazil",
+    "KE": "Korean Air",
+    "KL": "KLM Royal Dutch Airlines",
+    "KU": "Kuwait Airways",
+    "LA": "LATAM Airlines Group",
+    "LH": "Lufthansa",
+    "LO": "LOT Polish Airlines",
+    "LY": "El Al",
+    "ME": "Middle East Airlines",
+    "MH": "Malaysia Airlines",
+    "MS": "EgyptAir",
+    "NH": "All Nippon Airways",
+    "NZ": "Air New Zealand",
+    "OK": "Czech Airlines",
+    "OO": "SkyWest Airlines",
+    "OS": "Austrian Airlines",
+    "OZ": "Asiana Airlines",
+    "PC": "Pegasus Airlines",
+    "PK": "Pakistan International Airlines",
+    "PR": "Philippine Airlines",
+    "PS": "Ukraine International Airlines",
+    "QR": "Qatar Airways",
+    "QF": "Qantas Airways",
+    "RO": "TAROM",
+    "RS": "Air Seoul",
+    "S7": "S7 Airlines",
+    "SA": "South African Airways",
+    "SK": "SAS Scandinavian Airlines",
+    "SQ": "Singapore Airlines",
+    "SU": "Aeroflot",
+    "SV": "Saudia",
+    "SZ": "Somon Air",
+    "TG": "Thai Airways",
+    "TK": "Turkish Airlines",
+    "TP": "TAP Air Portugal",
+    "U2": "easyJet",
+    "UA": "United Airlines",
+    "VA": "Virgin Australia",
+    "VN": "Vietnam Airlines",
+    "VY": "Vueling Airlines",
+    "VS": "Virgin Atlantic",
+    "WS": "WestJet",
+    "WN": "Southwest Airlines",
+    "WY": "Oman Air",
+    "X3": "TUIfly",
+    "YX": "Republic Airways",
+    "ZB": "Monarch Airlines",
+    "ZH": "Shenzhen Airlines"
 }
 
 st.set_page_config(layout='wide', page_title='Air Schedule Tool', page_icon=":airplane_arriving:")
@@ -165,6 +205,9 @@ if 'text' not in st.session_state:
 	
 if 'price' not in st.session_state:
 	st.session_state.price = ""
+	
+if 'widget' not in st.session_state:
+	st.session_state.widget = ""
 
 col1, col2, col3 = st.columns([0.34, 0.05, 0.561])
 
@@ -225,7 +268,6 @@ def clear_text():
 	st.session_state.price = st.session_state.widget
 	st.session_state.widget = ""
 	
-
 with col1:
 	sked_source = st.selectbox(label='Schedule Source - Where did you get your schedule from?',options=['Tropics', 'Air Department'], placeholder='Tropics', help="Selection dictates how the schedule gets parsed")
 	st.write("Paste your schedule below and the software will format it for you.")
@@ -250,8 +292,6 @@ with col1:
 	with subcol2:
 		if st.button('Clear', key='clear_button', on_click= clear_text):
 			pass
-
-	
 
 def format_airdept_flights(text):
 	air_dept_pattern = r'^\s*([A-Za-z]{2}\d{1,5})\s+([A-Za-z])\s+([A-Za-z]+(?:\s[A-Za-z]+)*)\s+([A-Za-z]{3})\s+([A-Za-z]{3})\s+([0-9]{2}[A-Za-z]{3})\s+([0-9]{4})\s+([0-9]{2}[A-Za-z]{3})\s+([0-9]{4})\s+([A-Za-z]{2})\s+0\s+([A-Za-z\s]+)\s*$'
@@ -301,10 +341,11 @@ def format_airdept_flights(text):
 		'Operating Airlines']
 	
 	df = df[column_order]
+	df['Operating Airlines'] = df['Operating Airlines'].apply(lambda x: airlines.get(x, x))
 	return df
 
 def format_tropics_flights(text):
-	tropics_pattern = r'^\s*([A-Za-z]{2}\d{1,5})\s+([A-Za-z])\s+([A-Za-z]{3})\s+([A-Za-z]{3})\s+(\d{2}-[A-Za-z]{3}-\d{4})\s+(\d{2}:\d{2})\s+(\d{2}-[A-Za-z]{3}-\d{4})\s+(\d{2}:\d{2})\s+([A-Za-z]+(?:\s(?!non\s)[A-Za-z]+)?)\s+((?:non\s+stop|[A-Za-z\s]+))\s+(\d{1,2}[hH]\s*\d{1,2}[mM]|\d{1,2}[mM])\s+([A-Za-z\s]+)\s*$'
+	tropics_pattern = r'^\s*([A-Za-z]{2}\d{1,5})\s+([A-Za-z])\s+([A-Za-z]{3})\s+([A-Za-z]{3})\s+(\d{2}-[A-Za-z]{3}-\d{4})\s+(\d{2}:\d{2})\s+(\d{2}-[A-Za-z]{3}-\d{4})\s+(\d{2}:\d{2})\s+([A-Za-z]+(?:\s(?!non\s)[A-Za-z]+)?)\s+((?:non\s+stop|[A-Za-z\s]+))\s+(\d{1,2}[hH]\s*\d{1,2}[mM]|\d{1,2}[mM])\s+([A-Za-z\s\-]+)\s*$'
 	flights = text.strip().split("\n")
 	schedule = []
 	for index, item in enumerate(flights):
@@ -413,6 +454,11 @@ if format and data:
 			script = generate_script(schedule)
 			st.markdown(script)
 			
+			st.markdown(
+				"<h5 style='color:red;'>Airfare is subject to rate change and availability until your reservation is confirmed with air deposit.</h5>",
+				unsafe_allow_html=True
+			)
+			
 			tropics_column_order = [
 			'Flight No',
 			'From',
@@ -509,4 +555,8 @@ if show_history and st.session_state.history:
 		st.markdown(historic_html, unsafe_allow_html=True)
 		previous_script = st.expander('Auto-generated script')
 		previous_script.write(f"#### Script: \n\n{entry['script']}")
+		previous_script.markdown(
+				"<h5 style='color:red;'>Airfare is subject to rate change and availability until your reservation is confirmed with air deposit.</h5>",
+				unsafe_allow_html=True
+			)
 		st.write("-" * 50)
