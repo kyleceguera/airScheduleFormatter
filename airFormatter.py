@@ -378,8 +378,8 @@ def format_tropics_flights(text):
 	
 	df['Airline'] = df['Flight No'].astype(str).str[:2]
 	df['Flight Number'] = df['Flight No'].astype(str).str[2:]
-	df['DepDate'] = pd.to_datetime(df['Dep Date'])
-	df['ArrDate'] = pd.to_datetime(df['Arr Date'])	
+	df['DepDate'] = pd.to_datetime(df['Dep Date'], format='%d-%b-%Y')
+	df['ArrDate'] = pd.to_datetime(df['Arr Date'], format='%d-%b-%Y')
 
 	# Iterate through rows and compare with previous row
 	for index in range(len(df) - 1):
@@ -445,9 +445,19 @@ if format and data:
 	timestamp = datetime.now()
 	st.session_state.format = True
 	if sked_source == 'Tropics':
-		schedule = format_tropics_flights(data)
+		try:
+			schedule = format_tropics_flights(data)
+		except Exception as e:
+			with col3:
+				st.warning(f"Something went wrong while trying to parse flights:\n\n{e}")
+				st.stop()
 	if sked_source == 'Air Department':
-		schedule = format_airdept_flights(data)
+		try:
+			schedule = format_airdept_flights(data)
+		except Exception as e:
+			with col3:
+				st.warning(f"Something went wrong while trying to parse flights:\n\n{e}")
+				st.stop()
 
 	if st.session_state.format and isinstance(schedule, pd.DataFrame):
 		with col3:	
