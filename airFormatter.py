@@ -289,13 +289,15 @@ with col1:
 	st.session_state.text = data
 	recordPrice = st.toggle('**OPTIONAL - CAPTURE PRICE**\n\nUsed only to show price at time of formatting (when looking through previous requests)')
 	if recordPrice:
-		price_inputted = st.text_input('Schedule Price - per person',help="Price must be inputted before formatting otherwise it will not be captured", key = 'widget')
+		price_inputted = st.text_input('Schedule Price - per person',help="Price must be inputted before formatting otherwise it will not be captured", key = 'widget', placeholder=0)
 		if price_inputted:
 			if re.search(r'[a-zA-Z]', price_inputted):  # This regex allows only numbers and periods
 				st.warning("Please enter a valid price without any letters.")
 			else:
 				# Optionally, you can further process the price here (like removing commas, etc.)
 				price = re.sub(r'[^0-9.]', '', price_inputted)
+		else:
+			price = False
 	else:
 		price = False
 	st.write('')
