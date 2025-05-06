@@ -1,6 +1,6 @@
 ✈️ __Air Schedule Formatter__
 
-This Streamlit app is designed to quickly format pasted air schedules into clean HTML tables for easy copying and pasting by contact center agents. Additionally, it takes the content from a provided schedule and creates a DOT script agents can use when quoting flights. 
+This Streamlit app is designed to quickly format pasted air schedules into clean HTML tables for easy copying and pasting by contact center agents. Additionally, it takes the content from a provided schedule and creates a department of transportation (DOT) friendly script agents can use when quoting air schedules while handling a voice interaction. 
 
 🚀 __What It Does__
   - Accepts a pasted air schedule (e.g., flight details from booking system or directly from air department).
