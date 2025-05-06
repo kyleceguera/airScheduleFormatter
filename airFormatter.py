@@ -3,6 +3,19 @@ from datetime import datetime
 
 current_year = datetime.now().year
 
+#append year based on derived date from df - needed for sked from air dept
+def adjust_date(x):
+    current_date = datetime.now()
+    
+    # Convert the DDMMM part into a date with current year
+    date_with_current_year = pd.to_datetime(f"{x}{current_year}", format='%d%b%Y')
+    
+    # If the date is already past the current date, append next year
+    if date_with_current_year < current_date:
+        return f"{x}{current_year + 1}"
+    else:
+        return f"{x}{current_year}"
+
 airport_codes = {
 	'AMS': 'Amsterdam',
 	'ATH': 'Athens',
@@ -321,9 +334,9 @@ def format_airdept_flights(text):
 	df['Airline'] = df['Flight No'].astype(str).str[:2]
 	df['Flight Number'] = df['Flight No'].astype(str).str[2:]
 	# Convert to datetime, add current year if no year is provided
-	df['Dep Date'] = pd.to_datetime(df['Dep Date'].apply(lambda x: f"{x}{current_year}" if len(x) == 5 else x), format='%d%b%Y')
+	df['Dep Date'] = pd.to_datetime(df['Dep Date'].apply(lambda x: adjust_date(x) if len(x) == 5 else x), format='%d%b%Y')
 	df['Dep Date'] = df['Dep Date'].dt.strftime('%d-%b-%Y')
-	df['Arr Date'] = pd.to_datetime(df['Arr Date'].apply(lambda x: f"{x}{current_year}" if len(x) == 5 else x), format='%d%b%Y')
+	df['Arr Date'] = pd.to_datetime(df['Arr Date'].apply(lambda x: adjust_date(x) if len(x) == 5 else x), format='%d%b%Y')
 	df['Arr Date'] = df['Arr Date'].dt.strftime('%d-%b-%Y')
 	df['Dep Time'] = df['Dep Time'].apply(lambda x: f"{str(x).zfill(4)[:2]}:{str(x).zfill(4)[2:]}")
 	df['Arr Time'] = df['Arr Time'].apply(lambda x: f"{str(x).zfill(4)[:2]}:{str(x).zfill(4)[2:]}")
@@ -424,14 +437,14 @@ def generate_script(df):
 		current_segment_date = pd.to_datetime(row['Arr Date'])
 		
 		# For the first row, skip the logic until previous_segment_date is set
-		if previous_segment_date is None:  #we know this is the first segment
+		if i==0:  #we know this is the first segment
 			script_open = f"We're able to offer:\n\n"
 		elif i == df.index[-1]:
 			script_open = f'Our final leg would be '
-		elif abs((current_segment_date - previous_segment_date).days) <= 1 :
-			script_open = f'This flight would connect to'
 		elif abs((current_segment_date - previous_segment_date).days) > 5:
 			script_open = f'On the return we have'
+		elif abs((current_segment_date - previous_segment_date).days) <= 2 :
+			script_open = f'This flight would connect to'
 			
 		# Update previous_segment_date after the check
 		previous_segment_date = current_segment_date
@@ -462,64 +475,70 @@ if format and data:
 	if st.session_state.format and isinstance(schedule, pd.DataFrame):
 		with col3:	
 			st.markdown("### DOT SCRIPT", help = 'Only major airports are currently mapped. Some DOT scripts will return the Airport code, especially if lesser used airports are included in the schedule')
-			script = generate_script(schedule)
-			st.markdown(script)
-			
-			st.markdown(
-				"<h5 style='color:red;'>Airfare is subject to rate change and availability until your reservation is confirmed with air deposit.</h5>",
-				unsafe_allow_html=True
-			)
-			
-			tropics_column_order = [
-			'Flight No',
-			'From',
-			'To',
-			'Dep Date',
-			'Dep Time',
-			'Arr Date',
-			'Arr Time',
-			'Cabin Class', 
-			'Layover Time',
-			'Operating Airlines']
-			
-			airdept_column_order = [
-			'Flight No',
-			'From',
-			'To',
-			'Dep Date',
-			'Dep Time',
-			'Arr Date',
-			'Arr Time',
-			'Cabin Class', 
-			'Operating Airlines']
-			
-			formatted_df = schedule[tropics_column_order] if sked_source == "Tropics" else schedule[airdept_column_order]
-			
-			# Convert the DataFrame to HTML with inline CSS to force gridlines
-			html_table = formatted_df.to_html(classes='custom-table1 table-bordered', index=False)
+			try:
+				script = generate_script(schedule)
+				st.markdown(script)
+				
+				st.markdown(
+					"<h5 style='color:red;'>Airfare is subject to rate change and availability until your reservation is confirmed with air deposit.</h5>",
+					unsafe_allow_html=True
+				)
+				
+				tropics_column_order = [
+				'Flight No',
+				'From',
+				'To',
+				'Dep Date',
+				'Dep Time',
+				'Arr Date',
+				'Arr Time',
+				'Cabin Class', 
+				'Layover Time',
+				'Operating Airlines']
+				
+				airdept_column_order = [
+				'Flight No',
+				'From',
+				'To',
+				'Dep Date',
+				'Dep Time',
+				'Arr Date',
+				'Arr Time',
+				'Cabin Class', 
+				'Operating Airlines']
+				
+				formatted_df = schedule[tropics_column_order] if sked_source == "Tropics" else schedule[airdept_column_order]
+				
+				# Convert the DataFrame to HTML with inline CSS to force gridlines
+				html_table = formatted_df.to_html(classes='custom-table1 table-bordered', index=False)
 
-			# Custom CSS for gridlines
-			css1 = """
-				<style>
-					.custom-table1 {
-						border: 2px solid black;
-						border-collapse: collapse;
-						margin-left: auto;
-						margin-right: auto;
-					}
-					.custom-table1 th, .custom-table1 td {
-						border: 1px solid black;
-						padding: 8px;
-						text-align: center;  /* Center align text in both th and td */
-					}
-				</style>
-			"""
-			# Render the DataFrame with gridlines in Streamlit
-			st.markdown(css1, unsafe_allow_html=True)
-			st.markdown(html_table, unsafe_allow_html=True)
+				# Custom CSS for gridlines
+				css1 = """
+					<style>
+						.custom-table1 {
+							border: 2px solid black;
+							border-collapse: collapse;
+							margin-left: auto;
+							margin-right: auto;
+						}
+						.custom-table1 th, .custom-table1 td {
+							border: 1px solid black;
+							padding: 8px;
+							text-align: center;  /* Center align text in both th and td */
+						}
+					</style>
+				"""
+				# Render the DataFrame with gridlines in Streamlit
+				st.markdown(css1, unsafe_allow_html=True)
+				st.markdown(html_table, unsafe_allow_html=True)
 	
-		st.session_state.history.append({"timestamp": timestamp, "schedule": formatted_df, "script": script, "price": float(price) if price else ''})
+				st.session_state.history.append({"timestamp": timestamp, "schedule": formatted_df, "script": script, "price": float(price) if price else ''})
 		
+			except Exception as e:
+					st.error(f"There was an error with formatting the provided schedule or generating the DOT Script. Please review the schedule inputted to ensure its copied/pasted correctly and the correct schedule source is selected. \n\nErrorMessage: {e}")
+					st.markdown("Based on what was provided, the current output for the schedule is:")
+					st.dataframe(schedule)
+
 # Toggle to show/hide history
 st.write("-" * 50)
 show_history = st.checkbox("Show Previous Requests")
