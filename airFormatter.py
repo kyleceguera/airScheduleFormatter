@@ -70,6 +70,7 @@ airport_codes = {
 	'LIS': 'Lisbon',
 	'LTN': 'London Luton',
 	'MAD': 'Madrid',
+	'MCI': 'Kansas City(MO)',
 	'MCO': 'Orlando',
 	'MEX': 'Mexico City',
 	'MIA': 'Miami',
