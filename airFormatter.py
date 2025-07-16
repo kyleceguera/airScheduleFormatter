@@ -204,7 +204,7 @@ airlines = {
     "ZH": "Shenzhen Airlines"
 }
 
-st.set_page_config(layout='wide', page_title='Air Schedule Tool', page_icon=":airplane_arriving:")
+st.set_page_config(layout='wide', page_title='Air Schedule Tool', page_icon="✈️")
 st.title("Flight Schedule Formatting Tool")
 
 display_price = 0
@@ -229,6 +229,14 @@ col1, col2, col3 = st.columns([0.34, 0.05, 0.561])
 st.markdown(
 	"""
 	<style>
+	footer {
+        visibility: hidden;
+    }
+	
+    header {
+        visibility: hidden;
+    }
+
 	.stButton>button {
 		background-color: #2E8B57; 
 		color: white;
