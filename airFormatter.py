@@ -85,6 +85,7 @@ airport_codes = {
 	'PBI': 'West Palm Beach',
 	'PDX': 'Portland',
 	'PEK': 'Beijing',
+	'PHL': 'Philadelphia',
 	'PHX': 'Phoenix',
 	'PIT': 'Pittsburgh',
 	'PRG': 'Prague',
