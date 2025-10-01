@@ -238,8 +238,9 @@ st.markdown(
         visibility: hidden;
     }
 
-	[class^="_profileContainer_"] {
-    	visibility: hidden;
+	[data-testid="appCreatorAvatar"] {
+		/* go up to parent container */
+		display: none;
 	}
 
 	.stButton>button {
