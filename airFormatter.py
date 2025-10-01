@@ -239,7 +239,7 @@ st.markdown(
     }
 
 	[class^="_profileContainer_"] {
-    	display: none !important;
+    	visibility: hidden;
 	}
 
 	.stButton>button {
