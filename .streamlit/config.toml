@@ -1,0 +1,6 @@
+[server]
+headless = true
+
+[ui]
+hideFooter = true
+hideMenu = true
