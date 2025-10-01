@@ -238,6 +238,10 @@ st.markdown(
         visibility: hidden;
     }
 
+	[class^="_profileContainer_"] {
+    	display: none !important;
+	}
+
 	.stButton>button {
 		background-color: #2E8B57; 
 		color: white;
