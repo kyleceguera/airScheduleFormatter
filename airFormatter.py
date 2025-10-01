@@ -243,6 +243,10 @@ st.markdown(
 		display: none;
 	}
 
+	[class^="_profile"] {
+		display: none;
+	}
+
 	.stButton>button {
 		background-color: #2E8B57; 
 		color: white;
