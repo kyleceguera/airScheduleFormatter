@@ -1,209 +1,47 @@
 import pandas as pd, streamlit as st, re, datetime
 from datetime import datetime
+import json
+
+with open('json/classMap.json', 'r') as f:
+	CABIN_CLASS_MAPPING = json.load(f)
+
+with open('json/airlines.json', 'r') as f:
+    airlines = json.load(f)
+
+with open('json/airport_codes.json', 'r') as f:
+    airport_codes = json.load(f)
 
 current_year = datetime.now().year
 
 #append year based on derived date from df - needed for sked from air dept
 def adjust_date(x):
-    current_date = datetime.now()
-    
-    # Convert the DDMMM part into a date with current year
-    date_with_current_year = pd.to_datetime(f"{x}{current_year}", format='%d%b%Y')
-    
-    # If the date is already past the current date, append next year
-    if date_with_current_year < current_date:
-        return f"{x}{current_year + 1}"
-    else:
-        return f"{x}{current_year}"
+	current_date = datetime.now()
+	
+	# Convert the DDMMM part into a date with current year
+	date_with_current_year = pd.to_datetime(f"{x}{current_year}", format='%d%b%Y')
+	
+	# If the date is already past the current date, append next year
+	if date_with_current_year < current_date:
+		return f"{x}{current_year + 1}"
+	else:
+		return f"{x}{current_year}"
 
-airport_codes = {
-	'AMS': 'Amsterdam',
-	'ATH': 'Athens',
-	'ATL': 'Atlanta',
-	'AUS': 'Austin',
-	'BCN': 'Barcelona',
-	'BER': 'Berlin',
-	'BKK': 'Bangkok',
-	'BOS': 'Boston',
-	'BRU': 'Brussels',
-	'BUD': 'Budapest',
-	'BUF': 'Buffalo',
-	'BWI': 'Baltimore',
-	'CDG': 'Paris',
-	'CGN': 'Cologne',
-	'CLE': 'Cleveland',
-	'CLT': 'Charlotte',
-	'CMH': 'Columbus',
-	'COS': 'Colorado Springs',
-	'CPH': 'Copenhagen',
-	'CPT': 'Cape Town',
-	'DAY': 'Dayton',
-	'DEN': 'Denver',
-	'DFW': 'Dallas',
-	'DTW': 'Detroit',
-	'DUB': 'Dublin',
-	'DUS': 'Düsseldorf',
-	'DXB': 'Dubai',
-	'EZE': 'Buenos Aires',
-	'FCO': 'Rome',
-	'FLL': 'Fort Lauderdale',
-	'FRA': 'Frankfurt',
-	'GOT': 'Gothenburg',
-	'GVA': 'Geneva',
-	'HAM': 'Hamburg',
-	'HKG': 'Hong Kong',
-	'HNL': 'Honolulu',
-	'IAH': 'Houston',
-	'ICN': 'Seoul',
-	'IND': 'Indianapolis',
-	'IST': 'Istanbul',
-	'JAX': 'Jacksonville',
-	'JFK': 'New York',
-	'KBP': 'Kyiv',
-	'KUL': 'Kuala Lumpur',
-	'LAS': 'Las Vegas',
-	'LAX': 'Los Angeles',
-	'LGB': 'Long Beach',
-	'LGW': 'London Gatwick',
-	'LHR': 'London Heathrow',
-	'LIM': 'Lima',
-	'LIS': 'Lisbon',
-	'LTN': 'London Luton',
-	'MAD': 'Madrid',
-	'MCI': 'Kansas City(MO)',
-	'MCO': 'Orlando',
-	'MEX': 'Mexico City',
-	'MIA': 'Miami',
-	'MSP': 'Minneapolis',
-	'MSY': 'New Orleans',
-	'MUC': 'Munich',
-	'MXP': 'Milan',
-	'NRT': 'Tokyo',
-	'OKC': 'Oklahoma City',
-	'ORD': 'Chicago',
-	'OSL': 'Oslo',
-	'PBI': 'West Palm Beach',
-	'PDX': 'Portland',
-	'PEK': 'Beijing',
-	'PHL': 'Philadelphia',
-	'PHX': 'Phoenix',
-	'PIT': 'Pittsburgh',
-	'PRG': 'Prague',
-	'RDU': 'Raleigh-Durham',
-	'SAN': 'San Diego',
-	'SAV': 'Savannah',
-	'SCL': 'Santiago',
-	'SEA': 'Seattle',
-	'SFO': 'San Francisco',
-	'SIN': 'Singapore',
-	'SJC': 'San Jose',
-	'SJU': 'San Juan',
-	'SLC': 'Salt Lake City',
-	'STL': 'St. Louis',
-	'STN': 'London Stansted',
-	'STO': 'Stockholm',
-	'SVO': 'Saint Petersburg',
-	'SYD': 'Sydney',
-	'TLV': 'Tel Aviv',
-	'TPA': 'Tampa',
-	'VIE': 'Vienna',
-	'YUL': 'Montreal',
-	'YVR': 'Vancouver',
-	'YYZ': 'Toronto',
-	'ZRH': 'Zurich',
-}
+def get_cabin_class(airline_code, booking_class):
+	airline_code = airline_code.upper()
+	booking_class = booking_class.upper()
 
-airlines = {
-    "5J": "Cebu Pacific Air",
-    "9K": "Cape Air",
-    "9W": "Jet Airways",
-    "A3": "Aegean Airlines",
-    "A4": "Allegiant Air",
-	"AA": "American Airlines",
-    "AC": "Air Canada",
-    "AF": "Air France",
-    "AI": "Air India",
-    "AM": "Aeroméxico",
-    "AR": "Aerolíneas Argentinas",
-    "AS": "Alaska Airlines",
-    "AV": "Avianca",
-    "AY": "Finnair",
-    "AZ": "ITA Airways",
-    "B6": "JetBlue Airways",
-    "BA": "British Airways",
-    "BT": "airBaltic",
-    "CA": "Air China",
-    "CI": "China Airlines",
-    "CM": "Copa Airlines",
-    "CX": "Cathay Pacific Airways",
-    "CZ": "China Southern Airlines",
-    "D8": "Norwegian Air International",
-    "DL": "Delta Air Lines",
-    "DY": "Norwegian Air Shuttle",
-    "EI": "Aer Lingus",
-    "EK": "Emirates",
-    "ET": "Ethiopian Airlines",
-    "EY": "Etihad Airways",
-    "FZ": "Flydubai",
-    "FI": "Icelandair",
-    "FR": "Ryanair",
-    "G3": "Gol Linhas Aéreas",
-    "GA": "Garuda Indonesia",
-    "GF": "Gulf Air",
-    "HA": "Hawaiian Airlines",
-    "HG": "Niki",
-    "HR": "Hahn Air",
-    "IB": "Iberia",
-    "JL": "Japan Airlines",
-    "JJ": "LATAM Airlines Brazil",
-    "KE": "Korean Air",
-    "KL": "KLM Royal Dutch Airlines",
-    "KU": "Kuwait Airways",
-    "LA": "LATAM Airlines Group",
-    "LH": "Lufthansa",
-    "LO": "LOT Polish Airlines",
-    "LY": "El Al",
-    "ME": "Middle East Airlines",
-    "MH": "Malaysia Airlines",
-    "MS": "EgyptAir",
-    "NH": "All Nippon Airways",
-    "NZ": "Air New Zealand",
-    "OK": "Czech Airlines",
-    "OO": "SkyWest Airlines",
-    "OS": "Austrian Airlines",
-    "OZ": "Asiana Airlines",
-    "PC": "Pegasus Airlines",
-    "PK": "Pakistan International Airlines",
-    "PR": "Philippine Airlines",
-    "PS": "Ukraine International Airlines",
-    "QR": "Qatar Airways",
-    "QF": "Qantas Airways",
-    "RO": "TAROM",
-    "RS": "Air Seoul",
-    "S7": "S7 Airlines",
-    "SA": "South African Airways",
-    "SK": "SAS Scandinavian Airlines",
-    "SQ": "Singapore Airlines",
-    "SU": "Aeroflot",
-    "SV": "Saudia",
-    "SZ": "Somon Air",
-    "TG": "Thai Airways",
-    "TK": "Turkish Airlines",
-    "TP": "TAP Air Portugal",
-    "U2": "easyJet",
-    "UA": "United Airlines",
-    "VA": "Virgin Australia",
-    "VN": "Vietnam Airlines",
-    "VY": "Vueling Airlines",
-    "VS": "Virgin Atlantic",
-    "WS": "WestJet",
-    "WN": "Southwest Airlines",
-    "WY": "Oman Air",
-    "X3": "TUIfly",
-    "YX": "Republic Airways",
-    "ZB": "Monarch Airlines",
-    "ZH": "Shenzhen Airlines"
-}
+	# Default to Economy if airline not found
+	if airline_code not in CABIN_CLASS_MAPPING:
+		return "AIRLINE NOT FOUND"
+	
+	airline_mapping = CABIN_CLASS_MAPPING[airline_code]
+	
+	for cabin_class, booking_classes in airline_mapping.items():
+		class_list = [cls.strip() for cls in booking_classes.split(',') if cls.strip()]
+		if booking_class in class_list:
+			return cabin_class
+	
+	return "NOT FOUND"
 
 st.set_page_config(layout='wide', page_title='Air Schedule Tool', page_icon="✈️")
 st.title("Flight Schedule Formatting Tool")
@@ -231,12 +69,12 @@ st.markdown(
 	"""
 	<style>
 	footer {
-        visibility: hidden;
-    }
+		visibility: hidden;
+	}
 	
-    header {
-        visibility: hidden;
-    }
+	header {
+		visibility: hidden;
+	}
 
 	[data-testid="appCreatorAvatar"] {
 		/* go up to parent container */
@@ -302,7 +140,7 @@ def clear_text():
 	st.session_state.widget = ""
 	
 with col1:
-	sked_source = st.selectbox(label='Schedule Source - Where did you get your schedule from?',options=['Tropics', 'Air Department'], placeholder='Tropics', help="Selection dictates how the schedule gets parsed")
+	sked_source = st.selectbox(label='Schedule Source - Where did you get your schedule from?',options=['Tropics', 'Air Department', 'AMADEUS'], placeholder='Tropics', help="Selection dictates how the schedule gets parsed")
 	st.write("Paste your schedule below and the software will format it for you.")
 	data = st.text_area(label='inputted schedule',label_visibility='collapsed', height=250, value=st.session_state.text)
 	st.session_state.text = data
@@ -441,6 +279,126 @@ def format_tropics_flights(text):
 	df = df[column_order]
 	return df
 
+def format_amadeus(text):
+	amadeus_pattern = r'^\s*(\d{1,2})\s+([A-Za-z]{2}\s?\d{1,5})\s+([A-Za-z])\s+(\d{2}[A-Z]{3})\s+(\d\*)?([A-Z]{6})\s+([A-Z]{2}\d)\s+(\d{4})\s+(\d{4})\s+(\d{2}[A-Z]{3})\s+([A-Z])\s+([A-Z]{2})/([A-Z0-9]+)\s*$'
+	
+	lines = text.strip().split("\n")
+	schedule = []
+	operating_airline = None
+	
+	for line in lines:
+		# Check if this is an "OPERATED BY" line
+		if "OPERATED BY" in line:
+			operating_airline = line.strip().replace("OPERATED BY ", "")
+			# Apply to the last flight added to schedule
+			if schedule:
+				# Update the last flight's operating airline
+				last_flight = list(schedule[-1])
+				last_flight[11] = operating_airline  # Index 11 is Operating Airlines
+				schedule[-1] = tuple(last_flight)
+			continue
+		
+		match = re.match(amadeus_pattern, line)
+		if match:
+			segment_num, flight_no, bkg_class, dep_date, day_indicator, route, status, dep_time, arr_time, arr_date, airline, eticket, fare_basis = match.groups()
+			
+			# Remove whitespace from flight number
+			flight_no = flight_no.replace(' ','')
+			
+			# Extract origin and destination from the 6-letter route code
+			origin = route[:3]
+			destination = route[3:]
+			
+			current_year = datetime.now().year
+			dep_date_obj = datetime.strptime(f"{dep_date}{current_year + 1}", "%d%b%Y")
+			arr_date_obj = datetime.strptime(f"{arr_date}{current_year + 1}", "%d%b%Y")
+			
+			# Format dates
+			dep_date_formatted = dep_date_obj.strftime("%d-%b-%Y")
+			arr_date_formatted = arr_date_obj.strftime("%d-%b-%Y")
+			
+			# Format times from HHMM to HH:MM
+			dep_time_formatted = f"{dep_time[:2]}:{dep_time[2:]}"
+			arr_time_formatted = f"{arr_time[:2]}:{arr_time[2:]}"
+			
+			# Determine cabin class from booking class (you may need to adjust this logic)
+			cabin_class = get_cabin_class(flight_no[:2], bkg_class)
+			
+			flight_info = (
+				flight_no,
+				bkg_class,
+				origin,
+				destination,
+				dep_date_formatted,
+				dep_time_formatted,
+				arr_date_formatted,
+				arr_time_formatted,
+				cabin_class,
+				"non stop",
+				"",
+				flight_no[:2]  # Default to airline code
+			)
+			schedule.append(flight_info)
+			operating_airline = None  # Reset after use
+	
+	df = pd.DataFrame(schedule, columns=[
+		'Flight No',
+		'Bkg Class',
+		'From',
+		'To',
+		'Dep Date',
+		'Dep Time',
+		'Arr Date',
+		'Arr Time',
+		'Cabin Class', 
+		'Transit Stops',
+		'Layover Time',
+		'Operating Airlines'])
+	
+	df['Airline'] = df['Flight No'].astype(str).str[:2]
+	df['Flight Number'] = df['Flight No'].astype(str).str[2:]
+	df['DepDate'] = pd.to_datetime(df['Dep Date'], format='%d-%b-%Y')
+	df['ArrDate'] = pd.to_datetime(df['Arr Date'], format='%d-%b-%Y')
+	
+	# Calculate layover times between consecutive flights
+	for index in range(len(df) - 1):
+		current_arrival = pd.to_datetime(df.at[index, 'Arr Date'] + ' ' + df.at[index, 'Arr Time'])
+		next_departure = pd.to_datetime(df.at[index + 1, 'Dep Date'] + ' ' + df.at[index + 1, 'Dep Time'])
+		
+		time_diff = next_departure - current_arrival
+		
+		# If layover is more than 24 hours, it's likely a separate trip segment
+		if time_diff > pd.Timedelta(days=1):
+			df.at[index, 'Layover Time'] = ''
+		else:
+			# Format layover time as "Xh Ym"
+			hours = int(time_diff.total_seconds() // 3600)
+			minutes = int((time_diff.total_seconds() % 3600) // 60)
+			if hours > 0:
+				df.at[index, 'Layover Time'] = f"{hours}h {minutes}m"
+			else:
+				df.at[index, 'Layover Time'] = f"{minutes}m"
+	
+	df.at[len(df) - 1, 'Layover Time'] = ''  # Last flight has no layover
+	
+	column_order = [
+		'Flight No',
+		'Airline',
+		'Flight Number',
+		'From',
+		'Dep Date',
+		'Dep Time',
+		'To',
+		'Arr Date',
+		'Arr Time',
+		'Cabin Class', 
+		'Transit Stops',
+		'Layover Time',
+		'Operating Airlines']
+	df = df[column_order]
+	df['Operating Airlines'] = df['Operating Airlines'].apply(lambda x: airlines.get(x, x))
+	return df
+
 def generate_script(df):
 	script = ""
 	previous_segment_date = None
@@ -492,11 +450,18 @@ if format and data:
 			with col3:
 				st.warning(f"Something went wrong while trying to parse flights:\n\n{e}")
 				st.stop()
+	if sked_source == 'AMADEUS':
+		try:
+			schedule = format_amadeus(data)
+		except Exception as e:
+			with col3:
+				st.warning(f"Something went wrong while trying to parse flights:\n\n{e}")
+				st.stop()
 
 	if st.session_state.format and isinstance(schedule, pd.DataFrame):
 		with col3:	
-			st.markdown("### DOT SCRIPT", help = 'Only major airports are currently mapped. Some DOT scripts will return the Airport code, especially if lesser used airports are included in the schedule')
 			try:
+				st.markdown("### DOT SCRIPT", help = 'Only major airports are currently mapped. Some DOT scripts will return the Airport code, especially if lesser used airports are included in the schedule')
 				script = generate_script(schedule)
 				st.markdown(script)
 				
@@ -528,7 +493,7 @@ if format and data:
 				'Cabin Class', 
 				'Operating Airlines']
 				
-				formatted_df = schedule[tropics_column_order] if sked_source == "Tropics" else schedule[airdept_column_order]
+				formatted_df = schedule[airdept_column_order] if sked_source == "Air Department" else schedule[tropics_column_order]
 				
 				# Convert the DataFrame to HTML with inline CSS to force gridlines
 				html_table = formatted_df.to_html(classes='custom-table1 table-bordered', index=False)
