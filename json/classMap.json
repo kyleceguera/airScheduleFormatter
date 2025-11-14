@@ -1,0 +1,345 @@
+{
+  "4M": {
+    "Economy": "Y, B, H, K, M, L, V, X, S, N, Q, O, G, A",
+    "Premium Economy": "W, P",
+    "Business": "J, C, D, I, Z",
+    "First": ""
+  },
+  "A3": {
+    "Economy": "Y, B, M, H, Q, V, L, K, J, S, T, N, X",
+    "Premium Economy": "",
+    "Business": "C, D, Z, A, I, R",
+    "First": ""
+  },
+  "AA": {
+    "Economy": "Y, B, H, K, M, L, V, G, S, N, Q, O",
+    "Premium Economy": "W, E, T, P",
+    "Business": "J, C, D, R, I",
+    "First": "F, A"
+  },
+  "AC": {
+    "Economy": "Y, B, M, U, H, Q, V, W, G, S, T, K, L, S, G",
+    "Premium Economy": "R, O, E, N, A",
+    "Business": "J, C, D, Z, P",
+    "First": ""
+  },
+  "AF": {
+    "Economy": "Y, B, M, U, K, H, L, Q, T, E, N, R, V",
+    "Premium Economy": "W, S, A",
+    "Business": "J, C, D, I, Z",
+    "First": "P, F "
+  },
+  "AR": {
+    "Economy": "Y, B, M, U, K, H, L, Q, T, E, N, V, A, R, G",
+    "Premium Economy": "",
+    "Business": "J, C, D, I",
+    "First": ""
+  },
+  "AS": {
+    "Economy": "Y, Z, S, B, M, H, Q, L, V, K, G, T, R, X, N, W ",
+    "Premium Economy": "",
+    "Business": "",
+    "First": "F, D, P, I, U, A"
+  },
+  "AT": {
+    "Economy": "Y, B, H, K, M, L, V, S, N, Q, O ",
+    "Premium Economy": "",
+    "Business": "J, C, D, I, Z, U",
+    "First": ""
+  },
+  "AV": {
+    "Economy": "Y, B, M, H, Q, V, E, L, O, P, Z, W, S, T",
+    "Premium Economy": "",
+    "Business": "C, J, K, D, A",
+    "First": ""
+  },
+  "AY": {
+    "Economy": "Y, B, H, K, M, L, V, G, S, N, Q, O",
+    "Premium Economy": "W, E, T, P",
+    "Business": "J, C, D, R, I",
+    "First": "F, A"
+  },
+  "AZ": {
+    "Economy": "Y, B, M, H, K, V, T, N, S, X, W, L, O",
+    "Premium Economy": "P, A, U",
+    "Business": "J, C, E, D, I, Z",
+    "First": ""
+  },
+  "B6": {
+    "Economy": "Y, E, K, H, Q, B, V, R, W, M, Z, O, U, S, P, L, N",
+    "Premium Economy": "",
+    "Business": "",
+    "First": "J, C, D, I"
+  },
+  "BA": {
+    "Economy": "Y, B, H, K, M, L, V, G, S, N, Q, O",
+    "Premium Economy": "W, E, T, P",
+    "Business": "J, C, D, R, I",
+    "First": "F, A"
+  },
+  "BR": {
+    "Economy": "Y, B, M, H, Q, S, W, V",
+    "Premium Economy": "P, T, L, K",
+    "Business": "D, J, C ",
+    "First": ""
+  },
+  "CI": {
+    "Economy": "Y, B, M, K, V, T, R, Q, H, N, L ",
+    "Premium Economy": "W, U, A, E ",
+    "Business": "J, C, D",
+    "First": ""
+  },
+  "CM": {
+    "Economy": "Y, B, M, H, Q, K, V, U, S, O, W, E, L, T, A",
+    "Premium Economy": "",
+    "Business": "C, J, D, R ",
+    "First": ""
+  },
+  "CX": {
+    "Economy": "Y, B, H, K, M, L, V, S, N, Q, O",
+    "Premium Economy": "W, R, E",
+    "Business": "C, D, P, I",
+    "First": "F, A, J"
+  },
+  "D8": {
+    "Economy": "Y, R, B, U, Z, L, M, V, T, H, G ,E, S, A, K",
+    "Premium Economy": "",
+    "Business": "D, C, I",
+    "First": ""
+  },
+  "DI": {
+    "Economy": "Y, R, B, U, Z, L, M, V, T, H, G, E, S, A, K  ",
+    "Premium Economy": "",
+    "Business": "D, C, I",
+    "First": ""
+  },
+  "DL": {
+    "Economy": "Y, B, M, H, Q, K, L, U, T, X, V, E",
+    "Delta Comfort": "W, S",
+    "Premium Economy": "P, A, G",
+    "Business": "J, C, D, I, Z",
+    "First": "F"
+  },
+  "DY": {
+    "Economy": "Y, R, B, U, Z, L, M, V, T, H, G, E, S, A, K   ",
+    "Premium Economy": "",
+    "Business": "D, C, I",
+    "First": ""
+  },
+  "EI": {
+    "Economy": "A, Z, S, Q, L, N, F, M, V, K, G, H, B, O",
+    "Premium Economy": "",
+    "Business": "P, D, I, C, J, R",
+    "First": ""
+  },
+  "EK": {
+    "Economy": "Y, R, M, B, U, K, Q, L, T, X",
+    "Premium Economy": "W, E",
+    "Business": "H, O, I, C, J",
+    "First": "F, A"
+  },
+  "ET": {
+    "Economy": "Y, G, S, B, M, K, L, V, H, U, Q, T, E, O",
+    "Premium Economy": "",
+    "Business": "C, J, D, P",
+    "First": ""
+  },
+  "EY": {
+    "Economy": "Y, B, H, K, M, Q, L, V, U, E, T",
+    "Premium Economy": "",
+    "Business": "J, C, D, W, Z",
+    "First": "F, A, R"
+  },
+  "FI": {
+    "Economy": "Y, E, R, M, K, B, T, S, Q, V, H, L, W, S, I, O",
+    "Premium Economy": "",
+    "Business": "",
+    "First": "A, J, D, C"
+  },
+  "FZ": {
+    "Economy": "",
+    "Premium Economy": "",
+    "Business": "",
+    "First": "J, C, Z"
+  },
+  "HA": {
+    "Economy": "Y, W, X, Q, V, B, S, N, M, I, H, G, K, L, Z, O, U, T",
+    "Premium Economy": "",
+    "Business": "C, A, D",
+    "First": "F, J, P"
+  },
+  "HX": {
+    "Economy": "Y, B, H, K, L, M, N, S, X, Q, T, V, G, W, O, R, E",
+    "Premium Economy": "",
+    "Business": "C, D, J, Z, I",
+    "First": ""
+  },
+  "IB": {
+    "Economy": "Y, B, H, K, M, L, V, G, S, N, Q, O",
+    "Premium Economy": "W, E, T, P",
+    "Business": "J, C, D, R, I",
+    "First": "F, A"
+  },
+  "JL": {
+    "Economy": "Y, B, H, K, M, L, V, S, N, Q, O, G",
+    "Premium Economy": "W, R, E",
+    "Business": "J, C, D, X, I",
+    "First": "F, A"
+  },
+  "KE": {
+    "Economy": "Y, B, M, S, H, E, K, L, U",
+    "Premium Economy": "W",
+    "Business": "C, D, I, R, Z",
+    "First": "F, P, A, J"
+  },
+  "KL": {
+    "Economy": "Y, B, M, U, K, H, L, Q, T, E, N, R, V, X",
+    "Premium Economy": "W, S, A",
+    "Business": "J, C, D, I, Z",
+    "First": ""
+  },
+  "KQ": {
+    "Economy": "Y, B, M, U, K, H, L, Q, T, E, N",
+    "Premium Economy": "",
+    "Business": "J, C, D, I, Z, O",
+    "First": ""
+  },
+  "LA": {
+    "Economy": "Y, B, H, K, M, L, V, X, S, N, Q, O, G, A",
+    "Premium Economy": "W, P",
+    "Business": "J, C, D, I, Z",
+    "First": ""
+  },
+  "LH": {
+    "Economy": "Y, B, M, U, H, Q, V, W, S, T, L, K",
+    "Premium Economy": "G, E, N",
+    "Business": "J, C, D, Z, P",
+    "First": "F, A"
+  },
+  "LO": {
+    "Economy": "Y, B, M, E, H, K, Q, G, T, S, V, W, L, U, O",
+    "Premium Economy": "P, A, R, J",
+    "Business": "C, D, Z, F",
+    "First": ""
+  },
+  "LP": {
+    "Economy": "Y, B, H, K, M, L, V, X, S, N, Q, O, G, A",
+    "Premium Economy": "W, P",
+    "Business": "J, C, D, I, Z",
+    "First": ""
+  },
+  "LX": {
+    "Economy": "Y, B, M, U, H, Q, V, W, S, T, L, K",
+    "Premium Economy": "G, E, N",
+    "Business": "J, C, D, Z, P",
+    "First": "F, A"
+  },
+  "MH": {
+    "Economy": "Y, B, H, K, M, L, G",
+    "Premium Economy": "",
+    "Business": "J, C, D, I",
+    "First": ""
+  },
+  "MS": {
+    "Economy": "Y, B, M, H, Q, K, V, L, E, S, W, T",
+    "Premium Economy": "",
+    "Business": "C, D, J, Z, I",
+    "First": ""
+  },
+  "NH": {
+    "Economy": "Y, B, M, U, H, Q, V, W, S, L, K",
+    "Premium Economy": "G, E, N",
+    "Business": "C, D, Z, P",
+    "First": "F, A, J"
+  },
+  "NZ": {
+    "Economy": "Y, B, M, H, Q, V, W, T, L, S, G, X, K, P",
+    "Premium Economy": "U, E, O, A",
+    "Business": "C, D, Z, J",
+    "First": ""
+  },
+  "OS": {
+    "Economy": "Y, B, M, U, H, Q, V, W, S, T, L, K",
+    "Premium Economy": "G, E, N",
+    "Business": "J, C, D, Z, P",
+    "First": ""
+  },
+  "QF": {
+    "Economy": "Y, B, H, K, M, L, V, S, N, Q, O, G",
+    "Premium Economy": "W, R, T",
+    "Business": "J, C, D, I ",
+    "First": "F, A"
+  },
+  "QR": {
+    "Economy": "Y, K, B, S, M, L, V, S, N",
+    "Premium Economy": "",
+    "Business": "I, D, C, J",
+    "First": ""
+  },
+  "RJ": {
+    "Economy": "Y, B, H, K, M, L, V, S, N, Q, O, P, W, R",
+    "Premium Economy": "",
+    "Business": "J, C, D, I, Z",
+    "First": ""
+  },
+  "SA": {
+    "Economy": "Y, B, M, S, K, H, Q, T, V, L, W, G",
+    "Premium Economy": "",
+    "Business": "",
+    "First": ""
+  },
+  "SK": {
+    "Economy": "E, M, H, Q, V, W, U, K, L, T, O, G, N",
+    "Premium Economy": "Y, S, B, P, A",
+    "Business": "C, D, Z, J",
+    "First": ""
+  },
+  "SN": {
+    "Economy": "Y, B, M, U, H, Q, V, W, V, S, T, L, K, X",
+    "Premium Economy": "G, E, N",
+    "Business": "J, C, D, Z, P",
+    "First": ""
+  },
+  "TK": {
+    "Economy": "Y, B, M, A, H, S, O, E, Q, T, L, V, P, W, U, X, N, G",
+    "Premium Economy": "",
+    "Business": "C, D, Z, K, J, I, R",
+    "First": ""
+  },
+  "TP": {
+    "Economy": "Y, B, M, S, H, Q, V, W, A, K, L, U, N",
+    "Premium Economy": "",
+    "Business": "C, D, Z, R",
+    "First": ""
+  },
+  "UA": {
+    "Economy": "Y, B, M, E, U, H, Q, V, W, S, T, L, K, G, N",
+    "Premium Economy": "O, A, R",
+    "Business": "J, C, D, Z, P",
+    "First": ""
+  },
+  "VA": {
+    "Economy": "Y, B, K, E, N, H, V, L, Q, T, M, S",
+    "Premium Economy": "",
+    "Business": "I, D, C, J",
+    "First": ""
+  },
+  "VS": {
+    "Economy": "Y, B, R, L, U, M, E, Q, X, N, O, V, T",
+    "Premium Economy": "W, S, H, K ",
+    "Business": "J, C, D, I, Z",
+    "First": ""
+  },
+  "WS": {
+    "Economy": "Y, B, M, H, Q, N, S, X, T, K, L",
+    "Premium Economy": "R, O, W",
+    "Business": "",
+    "First": ""
+  },
+  "XL": {
+    "Economy": "Y, B, H, K, M, L, V, X, S, N, Q, O, G, A",
+    "Premium Economy": "W, P",
+    "Business": "J, C, D, I, Z",
+    "First": ""
+  }
+}
