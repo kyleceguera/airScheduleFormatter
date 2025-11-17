@@ -43,6 +43,28 @@ def get_cabin_class(airline_code, booking_class):
 	
 	return "NOT FOUND"
 
+def convert_ampm_to_24hr(time_str):
+	"""
+	Convert Amadeus AM/PM format to 24-hour HH:MM format
+	Examples: '210P' -> '14:10', '920A' -> '09:20', '1235P' -> '12:35'
+	"""
+	period = time_str[-1]  # 'A' or 'P'
+	time_digits = time_str[:-1]  # Remove the A/P
+	
+	# Pad with leading zeros to make it 4 digits (HHMM)
+	time_digits = time_digits.zfill(4)
+	
+	hour = int(time_digits[:2])
+	minute = time_digits[2:]
+	
+	# Convert to 24-hour format
+	if period == 'P' and hour != 12:
+		hour += 12
+	elif period == 'A' and hour == 12:
+		hour = 0
+	
+	return f"{hour:02d}:{minute}"
+
 st.set_page_config(layout='wide', page_title='Air Schedule Tool', page_icon="✈️")
 st.title("Flight Schedule Formatting Tool")
 
@@ -141,6 +163,12 @@ def clear_text():
 	
 with col1:
 	sked_source = st.selectbox(label='Schedule Source - Where did you get your schedule from?',options=['Tropics', 'Air Department', 'AMADEUS'], placeholder='Tropics', help="Selection dictates how the schedule gets parsed")
+	if sked_source == 'AMADEUS':
+		GETflag = st.checkbox('__Grand European Schedule__')
+	st.markdown(
+			'<hr style="border:1px solid rgba(49, 51, 63, 0.2); margin-top:5px; margin-bottom:5px;">',
+			unsafe_allow_html=True
+		)
 	st.write("Paste your schedule below and the software will format it for you.")
 	data = st.text_area(label='inputted schedule',label_visibility='collapsed', height=250, value=st.session_state.text)
 	st.session_state.text = data
@@ -279,8 +307,12 @@ def format_tropics_flights(text):
 	df = df[column_order]
 	return df
 
-def format_amadeus(text):
-	amadeus_pattern = r'^\s*(\d{1,2})\s+([A-Za-z]{2}\s?\d{1,5})\s+([A-Za-z])\s+(\d{2}[A-Z]{3})\s+(\d\*)?([A-Z]{6})\s+([A-Z]{2}\d)\s+(\d{4})\s+(\d{4})\s+(\d{2}[A-Z]{3})\s+([A-Z])\s+([A-Z]{2})/([A-Z0-9]+)\s*$'
+def format_amadeus(text, get_flag):
+	if get_flag:
+		# regex pattern for GET Schedules
+		amadeus_pattern = r'^\s*(\d{1,2})\s+([A-Za-z]{2}\s?\d{1,5})\s+([A-Za-z])\s+(\d{2}[A-Z]{3})\s+(\d\*)?([A-Z]{6})\s+([A-Z]{2}\d)\s+(\d{1,4}[AP])\s?(\d{1,4}[AP])\s+(\d{2}[A-Z]{3})\s+([A-Z])\s+([A-Z]{2})/([A-Z0-9]+)\s*$'
+	else:
+		amadeus_pattern = r'^\s*(\d{1,2})\s+([A-Za-z]{2}\s?\d{1,5})\s+([A-Za-z])\s+(\d{2}[A-Z]{3})\s+(\d\*)?([A-Z]{6})\s+([A-Z]{2}\d)\s+(\d{4})\s+(\d{4})\s+(\d{2}[A-Z]{3})\s+([A-Z])\s+([A-Z]{2})/([A-Z0-9]+)\s*$'
 	
 	lines = text.strip().split("\n")
 	schedule = []
@@ -317,9 +349,14 @@ def format_amadeus(text):
 			dep_date_formatted = dep_date_obj.strftime("%d-%b-%Y")
 			arr_date_formatted = arr_date_obj.strftime("%d-%b-%Y")
 			
-			# Format times from HHMM to HH:MM
-			dep_time_formatted = f"{dep_time[:2]}:{dep_time[2:]}"
-			arr_time_formatted = f"{arr_time[:2]}:{arr_time[2:]}"
+			if get_flag:
+				# Convert AM/PM format to 24-hour HH:MM
+				dep_time_formatted = convert_ampm_to_24hr(dep_time)
+				arr_time_formatted = convert_ampm_to_24hr(arr_time)
+			else:
+				# Format times from HHMM to HH:MM
+				dep_time_formatted = f"{dep_time[:2]}:{dep_time[2:]}"
+				arr_time_formatted = f"{arr_time[:2]}:{arr_time[2:]}"
 			
 			# Determine cabin class from booking class (you may need to adjust this logic)
 			cabin_class = get_cabin_class(flight_no[:2], bkg_class)
@@ -452,7 +489,7 @@ if format and data:
 				st.stop()
 	if sked_source == 'AMADEUS':
 		try:
-			schedule = format_amadeus(data)
+			schedule = format_amadeus(data, get_flag=GETflag)
 		except Exception as e:
 			with col3:
 				st.warning(f"Something went wrong while trying to parse flights:\n\n{e}")
